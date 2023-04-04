@@ -1,13 +1,13 @@
-import { GlobalStore as GlobalStoreBase } from 'react-native-global-state-hooks';
-import { formatFromStore, formatToStore } from 'json-storage-formatter';
-import asyncStorage from '@react-native-async-storage/async-storage';
-
 import {
-  StateSetter,
-  StateConfigCallbackParam,
-  StateChangesParam,
   ActionCollectionConfig,
-} from 'react-native-global-state-hooks/lib/GlobalStore.types';
+  GlobalStore as GlobalStoreBase,
+  StateChangesParam,
+  StateConfigCallbackParam,
+  StateSetter,
+  formatFromStore,
+  formatToStore,
+} from 'react-native-global-state-hooks';
+import asyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * GlobalStore is an store that could also persist the state in the async storage
