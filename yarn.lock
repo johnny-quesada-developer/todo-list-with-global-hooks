@@ -4229,10 +4229,10 @@ json-schema-deref-sync@^0.13.0:
     traverse "~0.6.6"
     valid-url "~1.0.9"
 
-json-storage-formatter@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/json-storage-formatter/-/json-storage-formatter-1.0.7.tgz#8efdb3fd6c29e7e5e06924144022c7d5d7184493"
-  integrity sha512-K3tyvgNCqHRPgdpuKWAY6+apY0WfwZl21M+ya0LQzvEBxfoY0pYy6qa8VLOMhixdlosqC7l5OmJk0qWAA7rseg==
+json-storage-formatter@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/json-storage-formatter/-/json-storage-formatter-1.0.8.tgz#96e1f9a5a1dc401568fa79ba0d68b3fd0d8e07c7"
+  integrity sha512-/Z+NZM9wKAz/MLZAQpAGEwmbJUolBPq94+FY+esKYlwev2flhr6L8LIOBHh9LilIrSFpfFSyBGG3xfh8gzwZyw==
 
 json5@^0.5.1:
   version "0.5.1"
@@ -5566,12 +5566,12 @@ react-native-gesture-handler@^2.9.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-global-state-hooks@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-global-state-hooks/-/react-native-global-state-hooks-3.0.1.tgz#36516941fc19ad7cb8b804961362ad2f7567edc6"
-  integrity sha512-tVDnTXtNhG6CHcOegWbIEoeMnXmU7MC5muCXJrPCBeFBlWQZas37i7CkS1y6FbK07GMqdKsnuMZB4yCOiSmdEQ==
+react-native-global-state-hooks@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-global-state-hooks/-/react-native-global-state-hooks-3.0.6.tgz#552716aa2244d6926c9e40d52e2056bab5710937"
+  integrity sha512-te4fYEMrJNg0tcmQizS7wC1CIhWMFqlzMxkpGHSB6i/tndfVAa9rVo1DOiPLoaaLecUB6JUt3IcICRYBb2blGA==
   dependencies:
-    json-storage-formatter "^1.0.7"
+    json-storage-formatter "^1.0.8"
 
 react-native-gradle-plugin@^0.71.17:
   version "0.71.17"

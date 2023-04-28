@@ -11,6 +11,7 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Todo, useTodos } from '@src/stores/todos';
+import { TextInput } from 'react-native-gesture-handler';
 
 const HomeStack = createStackNavigator();
 
@@ -19,33 +20,46 @@ interface Props {
 }
 
 const TodoList: React.FC = () => {
-  const [todos, setTodos, { isAsyncStorageReady }] = useTodos(); // State to store the todos
+  const [todos, actions, { isAsyncStorageReady }] = useTodos(); // State to store the todos
+
+  const pending = Array.from(todos.values()).filter((todo) => !todo.completed);
 
   // Function to add a new todo
   const handleAddTodo = () => {
-    const newTodo: Todo = {
-      id: new Date().getTime().toString(),
+    actions.add({
       title: `Todo ${todos.size + 1}`,
-    };
-
-    const newTodos = new Map(todos);
-    newTodos.set(newTodo.id, newTodo);
-
-    setTodos(newTodos);
+    });
   };
 
   // Function to remove a todo
   const handleRemoveTodo = (id: string) => {
-    const newTodos = new Map(todos);
-    newTodos.delete(id);
-
-    setTodos(newTodos);
+    actions.remove(id);
   };
 
   // Render item for the FlatList
   const renderItem = ({ item }: { item: Todo }) => (
     <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
-      <Text style={{ flex: 1 }}>{item.title}</Text>
+      <TextInput
+        style={{ flex: 1 }}
+        value={item.title}
+        onChangeText={(title) =>
+          actions.partialUpdate({
+            ...item,
+            title,
+          })
+        }
+      ></TextInput>
+
+      <Button
+        title='Complete'
+        onPress={() => {
+          actions.partialUpdate({
+            ...item,
+            completed: true,
+          });
+        }}
+      />
+
       <Button title='Remove' onPress={() => handleRemoveTodo(item.id)} />
     </View>
   );
@@ -64,7 +78,7 @@ const TodoList: React.FC = () => {
       </View>
 
       <FlatList
-        data={Array.from(todos.values())}
+        data={pending}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ padding: 10 }}

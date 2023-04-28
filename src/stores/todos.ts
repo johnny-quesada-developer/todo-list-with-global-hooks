@@ -1,12 +1,14 @@
+import { StoreTools } from 'react-native-global-state-hooks';
 import { GlobalStore } from './GlobalStore';
 
 export interface Todo {
   id: string;
   title: string;
+  completed?: boolean;
 }
 
-const store = new GlobalStore<Map<string, Todo>>(
-  new Map([
+const store = new GlobalStore(
+  new Map<string, Todo>([
     [
       '-1',
       {
@@ -14,17 +16,68 @@ const store = new GlobalStore<Map<string, Todo>>(
         title: 'Example todo default',
       },
     ],
-    [
-      '-2',
-      {
-        id: '-2',
-        title: 'Example todo 2 default',
-      },
-    ],
   ]),
   {
-    asyncStorageKey: 'todos',
-  }
+    metadata: {
+      asyncStorageKey: 'todos',
+      isAsyncStorageReady: false,
+    },
+  },
+  {
+    add(todo: Omit<Todo, 'id'>) {
+      return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
+        const newState = new Map(getState());
+
+        const id = new Date().getTime().toString();
+
+        newState.set(id, {
+          ...todo,
+          id,
+        });
+
+        setState(newState);
+
+        return getState();
+      };
+    },
+
+    update(todo: Todo) {
+      return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
+        const newState = new Map(getState());
+
+        newState.set(todo.id, todo);
+        setState(newState);
+
+        return getState();
+      };
+    },
+
+    partialUpdate(update: Partial<Todo> & { id: string }) {
+      return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
+        const newState = new Map(getState());
+
+        const todo = newState.get(update.id);
+
+        if (todo) {
+          newState.set(update.id, { ...todo, ...update });
+          setState(newState);
+        }
+
+        return getState();
+      };
+    },
+
+    remove(id: string) {
+      return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
+        const newState = new Map(getState());
+
+        newState.delete(id);
+        setState(newState);
+
+        return getState();
+      };
+    },
+  } as const
 );
 
 export const useTodos = store.getHook();
