@@ -1,74 +1,57 @@
 import asyncStorage from '@react-native-async-storage/async-storage';
 
 import {
-  ActionCollectionConfig,
-  StateChangesParam,
-  StateConfigCallbackParam,
-  StateSetter,
-  GlobalStoreAbstract,
-  GlobalStoreConfig,
   formatFromStore,
   formatToStore,
+  createCustomGlobalStateWithDecoupledFuncs,
 } from 'react-native-global-state-hooks';
 
-export class GlobalStore<
-  TState,
-  TMetadata extends {
-    asyncStorageKey?: string;
-    isAsyncStorageReady?: boolean;
-  },
-  TStateSetter extends
-    | ActionCollectionConfig<TState, TMetadata>
-    | StateSetter<TState> = StateSetter<TState>
-> extends GlobalStoreAbstract<TState, TMetadata, TStateSetter> {
-  constructor(
-    state: TState,
-    config: GlobalStoreConfig<TState, TMetadata, TStateSetter> = {},
-    setterConfig: TStateSetter | null = null
-  ) {
-    super(state, config, setterConfig);
+type HookConfig = {
+  asyncStorageKey?: string;
+};
 
-    this.initialize();
-  }
+// This is the base metadata that all the stores created from the builder will have.
+type BaseMetadata = {
+  isAsyncStorageReady?: boolean;
+};
 
-  protected onInitialize = async ({
-    setState,
-    setMetadata,
-    getMetadata,
-    getState,
-  }: StateConfigCallbackParam<TState, TMetadata, TStateSetter>) => {
-    const metadata = getMetadata();
-    const { asyncStorageKey } = metadata;
+export const createGlobalState = createCustomGlobalStateWithDecoupledFuncs<
+  BaseMetadata,
+  HookConfig
+>({
+  /**
+   * This function executes immediately after the global state is created, before the invocations of the hook
+   */
+  onInitialize: async ({ setState, setMetadata }, config) => {
+    setMetadata((metadata) => ({
+      ...(metadata ?? {}),
+      isAsyncStorageReady: null,
+    }));
 
+    const asyncStorageKey = config?.asyncStorageKey;
     if (!asyncStorageKey) return;
 
     const storedItem = (await asyncStorage.getItem(asyncStorageKey)) as string;
-    setMetadata({
+
+    // update the metadata, remember, metadata is not reactive
+    setMetadata((metadata) => ({
       ...metadata,
       isAsyncStorageReady: true,
-    });
+    }));
 
     if (storedItem === null) {
-      const state = getState();
-
-      // force the re-render of the subscribed components even if the state is the same
-      return setState(state, { forceUpdate: true });
+      return setState((state) => state, { forceUpdate: true });
     }
 
-    const items = formatFromStore<TState>(storedItem, {
+    const parsed = formatFromStore(storedItem, {
       jsonParse: true,
     });
 
-    setState(items, { forceUpdate: true });
-  };
+    setState(parsed, { forceUpdate: true });
+  },
 
-  protected onChange = ({
-    getMetadata,
-    getState,
-  }: StateChangesParam<TState, TMetadata, NonNullable<TStateSetter>>) => {
-    const { asyncStorageKey } = getMetadata();
-
-    if (!asyncStorageKey) return;
+  onChange: ({ getState }, config) => {
+    if (!config?.asyncStorageKey) return;
 
     const state = getState();
 
@@ -76,6 +59,6 @@ export class GlobalStore<
       stringify: true,
     });
 
-    asyncStorage.setItem(asyncStorageKey, formattedObject);
-  };
-}
+    asyncStorage.setItem(config.asyncStorageKey, formattedObject);
+  },
+});

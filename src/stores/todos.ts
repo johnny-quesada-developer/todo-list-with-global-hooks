@@ -1,5 +1,5 @@
 import { StoreTools } from 'react-native-global-state-hooks';
-import { GlobalStore } from './GlobalStore';
+import { createGlobalState } from './GlobalStore';
 
 export interface Todo {
   id: string;
@@ -7,7 +7,7 @@ export interface Todo {
   completed?: boolean;
 }
 
-const store = new GlobalStore(
+export const [useTodos] = createGlobalState(
   new Map<string, Todo>([
     [
       '-1',
@@ -18,66 +18,63 @@ const store = new GlobalStore(
     ],
   ]),
   {
-    metadata: {
+    config: {
       asyncStorageKey: 'todos',
-      isAsyncStorageReady: false,
     },
-  },
-  {
-    add(todo: Omit<Todo, 'id'>) {
-      return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
-        const newState = new Map(getState());
+    actions: {
+      add(todo: Omit<Todo, 'id'>) {
+        return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
+          const newState = new Map(getState());
 
-        const id = new Date().getTime().toString();
+          const id = new Date().getTime().toString();
 
-        newState.set(id, {
-          ...todo,
-          id,
-        });
+          newState.set(id, {
+            ...todo,
+            id,
+          });
 
-        setState(newState);
-
-        return getState();
-      };
-    },
-
-    update(todo: Todo) {
-      return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
-        const newState = new Map(getState());
-
-        newState.set(todo.id, todo);
-        setState(newState);
-
-        return getState();
-      };
-    },
-
-    partialUpdate(update: Partial<Todo> & { id: string }) {
-      return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
-        const newState = new Map(getState());
-
-        const todo = newState.get(update.id);
-
-        if (todo) {
-          newState.set(update.id, { ...todo, ...update });
           setState(newState);
-        }
 
-        return getState();
-      };
-    },
+          return getState();
+        };
+      },
 
-    remove(id: string) {
-      return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
-        const newState = new Map(getState());
+      update(todo: Todo) {
+        return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
+          const newState = new Map(getState());
 
-        newState.delete(id);
-        setState(newState);
+          newState.set(todo.id, todo);
+          setState(newState);
 
-        return getState();
-      };
-    },
-  } as const
+          return getState();
+        };
+      },
+
+      partialUpdate(update: Partial<Todo> & { id: string }) {
+        return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
+          const newState = new Map(getState());
+
+          const todo = newState.get(update.id);
+
+          if (todo) {
+            newState.set(update.id, { ...todo, ...update });
+            setState(newState);
+          }
+
+          return getState();
+        };
+      },
+
+      remove(id: string) {
+        return ({ setState, getState }: StoreTools<Map<string, Todo>>) => {
+          const newState = new Map(getState());
+
+          newState.delete(id);
+          setState(newState);
+
+          return getState();
+        };
+      },
+    } as const,
+  }
 );
-
-export const useTodos = store.getHook();
