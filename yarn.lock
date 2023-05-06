@@ -5575,10 +5575,10 @@ react-native-gesture-handler@^2.9.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-global-state-hooks@^5.0.5:
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/react-native-global-state-hooks/-/react-native-global-state-hooks-5.0.5.tgz#6fd2a5d1230230bdc34388fb0087be68a79be1a0"
-  integrity sha512-6paMKfeF69SbHEiEcYRyY/QtyJkPZSSVzdqgHMkFedyz4uGj/+zlgjJvRF23JxtbEfCD2KGBR/5sxv4QkoWjHQ==
+react-native-global-state-hooks@^5.0.14:
+  version "5.0.14"
+  resolved "https://registry.yarnpkg.com/react-native-global-state-hooks/-/react-native-global-state-hooks-5.0.14.tgz#a54b3c00adba9dd6710a9e88d8f667565145eefb"
+  integrity sha512-G9nifAzegWTkj+d4qCvHOlcCwXwmeBJCWPaE9ZEhYC+DBFn4/CrYLD5stQk1c5cMvK1Qe3jpVXM5VBCmNm96Jw==
   dependencies:
     json-storage-formatter "^1.0.8"
 
