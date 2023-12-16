@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Button, FlatList, RefreshControl, Text, View } from 'react-native';
-import { Todo, useTodos } from './stores/todos';
+import { Todo, useTodos } from './stores';
 
 const CompletedStack = createStackNavigator();
 

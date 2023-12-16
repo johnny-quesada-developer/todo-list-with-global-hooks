@@ -4238,10 +4238,10 @@ json-schema-deref-sync@^0.13.0:
     traverse "~0.6.6"
     valid-url "~1.0.9"
 
-json-storage-formatter@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.npmjs.org/json-storage-formatter/-/json-storage-formatter-1.0.8.tgz"
-  integrity sha512-/Z+NZM9wKAz/MLZAQpAGEwmbJUolBPq94+FY+esKYlwev2flhr6L8LIOBHh9LilIrSFpfFSyBGG3xfh8gzwZyw==
+json-storage-formatter@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/json-storage-formatter/-/json-storage-formatter-1.0.9.tgz#600e4771673d017a3cab03f2ab4d6ea60cc6abea"
+  integrity sha512-Z2aqXz2WCiAY/FLVbcNrDHjFFBrED3BDL9ZQD3fRnKP0BUfuXAjeln5jWEXRJY7Sanj/wSoSpJU6iufdiqhBVw==
 
 json5@^0.5.1:
   version "0.5.1"
@@ -5539,6 +5539,13 @@ react-devtools-core@^4.26.1:
     shell-quote "^1.6.1"
     ws "^7"
 
+react-hooks-global-states@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-hooks-global-states/-/react-hooks-global-states-1.0.0.tgz#32d800d8d5bcd53e1db32f6161b1753fbbec2151"
+  integrity sha512-j4pn85EuEOHxCFMay+s18V/qXH7bWtprtXaFbJVJ8uZSTu1sE1kCRvr65ekZUnlOiHvOjA6Th02enAfDNGTt2A==
+  dependencies:
+    json-storage-formatter "^1.0.9"
+
 "react-is@^16.12.0 || ^17.0.0 || ^18.0.0", react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
@@ -5575,12 +5582,12 @@ react-native-gesture-handler@^2.9.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-global-state-hooks@^5.0.14:
-  version "5.0.14"
-  resolved "https://registry.yarnpkg.com/react-native-global-state-hooks/-/react-native-global-state-hooks-5.0.14.tgz#a54b3c00adba9dd6710a9e88d8f667565145eefb"
-  integrity sha512-G9nifAzegWTkj+d4qCvHOlcCwXwmeBJCWPaE9ZEhYC+DBFn4/CrYLD5stQk1c5cMvK1Qe3jpVXM5VBCmNm96Jw==
+react-native-global-state-hooks@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-global-state-hooks/-/react-native-global-state-hooks-6.0.0.tgz#03856f07bc133ddb154d55ee474e1e3aa3e3098e"
+  integrity sha512-J15I+IPG8dIvwwxqTt330anG2JM7l4UXG/j3piSco2wMrOgTWwYV9yLwhCFV+HY9U/B9Gh4+rcWBAlozbGZlqw==
   dependencies:
-    json-storage-formatter "^1.0.8"
+    react-hooks-global-states "^1.0.0"
 
 react-native-gradle-plugin@^0.71.17:
   version "0.71.17"
