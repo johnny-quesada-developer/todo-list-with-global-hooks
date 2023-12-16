@@ -70,6 +70,28 @@ const store = new GlobalStore<Map<string, Todo>>(new Map(), {
 
 Using Global State Hooks and the `AsyncStorage` API in React Native can simplify state management and make it easier to share state across components. By extending the `GlobalStore` class, we can create custom stores that support advanced features like persistence.
 
+## `[IMPORTANT!]`: From version 6.0.0, you can continue creating your custom implementations or using your previous ones. However, now AsyncStorage is already integrated into the global hooks with @react-native-async-storage/async-storage. You simply need to add a key for the persistent storage, and that will do the trick.
+
+```ts
+// this is all you need fo using async storage
+const useCountPersisted = createGlobalState(1, {
+  asyncStorage: {
+    key: 'count',
+  },
+});
+
+/**
+ * Usage in your components:
+ * [NOTE]: If no key is provided, the default metadata is null. Otherwise, it's set to { isAsyncStorageReady: false }.
+ *
+ * Upon the first successful retrieval from AsyncStorage, components will re-render with { isAsyncStorageReady: true } in the metadata.
+ * The metadata and components will be updated and re-rendered even if there's no difference between the value stored in AsyncStorage and the store's default value. This is the only instance where the metadata forces a re-render, after this the metadata will not update the component
+ */
+const [count, setCount, { isAsyncStorageReady }] = useCountPersisted();
+```
+
+Now lets continue analizing how to create a custom GlobalStore
+
 # GlobalStore With AsyncStorage
 
 ```ts
