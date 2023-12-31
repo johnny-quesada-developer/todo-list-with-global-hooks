@@ -1,5 +1,3 @@
-const README = `
-
 # Todo List with Global State Hooks
 
 This is a simple Todo List app built using React Native and Global State Hooks. The app uses a custom implementation of the `react-native-global-state-hooks` package along with `AsyncStorage` for persisting the state.
